@@ -1,0 +1,7 @@
+Starting project at C:\Users\devandroid\tp10MOBILE-EFSI-ExploradorPaises
+Starting Metro Bundler
+Waiting on http://localhost:8081
+Logs for your project will appear below.
+Web .\index.js ▓▓▓▓▓▓▓▓▓▓░░░░░░ 66.6% (382/468)
+Web Bundled 3642ms index.js (533 modules)
+ LOG  [web] Logs will appear in the browser console
