@@ -1,13 +1,15 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { useCountries } from '../hooks/useCountries';
 import { useFavorites } from '../hooks/useFavorites';
 import CountryCard from '../components/CountryCard';
+import CountryDetailsModal from '../components/CountryDetailsModal';
 import { colors, spacing, fontSize } from '../styles/theme';
 
 const FavoritesScreen = () => {
   const { countries } = useCountries();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   const favoriteCountries = useMemo(
     () => countries.filter((c) => favorites.includes(c.cca3)),
@@ -24,6 +26,7 @@ const FavoritesScreen = () => {
             country={item}
             isFavorite={isFavorite(item.cca3)}
             onToggleFavorite={toggleFavorite}
+            onPress={setSelectedCountry}
           />
         )}
         contentContainerStyle={styles.list}
@@ -38,6 +41,10 @@ const FavoritesScreen = () => {
             </Text>
           </View>
         }
+      />
+      <CountryDetailsModal
+        country={selectedCountry}
+        onClose={() => setSelectedCountry(null)}
       />
     </View>
   );

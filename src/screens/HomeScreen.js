@@ -3,12 +3,14 @@ import { View, Text, TextInput, FlatList, StyleSheet } from 'react-native';
 import { useCountries } from '../hooks/useCountries';
 import { useFavorites } from '../hooks/useFavorites';
 import CountryCard from '../components/CountryCard';
+import CountryDetailsModal from '../components/CountryDetailsModal';
 import { colors, spacing, fontSize } from '../styles/theme';
 
 const HomeScreen = () => {
   const { countries, loading, error } = useCountries();
   const { favorites, toggleFavorite, isFavorite } = useFavorites();
   const [query, setQuery] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return countries;
@@ -54,6 +56,7 @@ const HomeScreen = () => {
             country={item}
             isFavorite={isFavorite(item.cca3)}
             onToggleFavorite={toggleFavorite}
+            onPress={setSelectedCountry}
           />
         )}
         contentContainerStyle={styles.list}
@@ -64,6 +67,10 @@ const HomeScreen = () => {
             </Text>
           </View>
         }
+      />
+      <CountryDetailsModal
+        country={selectedCountry}
+        onClose={() => setSelectedCountry(null)}
       />
     </View>
   );

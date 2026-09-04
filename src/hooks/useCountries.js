@@ -9,6 +9,16 @@ const mapCountry = (c) => ({
   flag: c.flag?.url_png || c.flag?.url_svg || null,
   capital: c.capitals?.[0]?.name || 'Sin capital',
   continent: c.continents?.[0] || 'Desconocido',
+  population: c.population ?? null,
+  languages: c.languages?.map((language) => language.name).filter(Boolean) || [],
+  currencies:
+    c.currencies
+      ?.map((currency) => ({
+        name: currency.name,
+        code: currency.code,
+        symbol: currency.symbol,
+      }))
+      .filter((currency) => currency.name || currency.code) || [],
 });
 
 export const useCountries = () => {
@@ -23,7 +33,7 @@ export const useCountries = () => {
         setError(null);
         const all = [];
         const fields =
-          'response_fields=names.common,codes.alpha_3,flag.url_png,capitals.name,continents';
+          'response_fields=names.common,codes.alpha_3,flag.url_png,capitals.name,continents,population,languages.name,currencies.name,currencies.code,currencies.symbol';
         let offset = 0;
         let total = Infinity;
         while (offset < total) {

@@ -1,11 +1,14 @@
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { colors, spacing, fontSize } from '../styles/theme';
 
-const CountryCard = ({ country, isFavorite, onToggleFavorite }) => {
+const CountryCard = ({ country, isFavorite, onToggleFavorite, onPress }) => {
   const { name, flag, capital, continent } = country;
 
   return (
     <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={`Ver información de ${name}`}
+      onPress={() => onPress(country)}
       style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
     >
       {flag ? (
@@ -22,7 +25,15 @@ const CountryCard = ({ country, isFavorite, onToggleFavorite }) => {
         <Text style={styles.detail}>Capital: {capital}</Text>
         <Text style={styles.detail}>Continente: {continent}</Text>
       </View>
-      <Pressable onPress={() => onToggleFavorite(country.cca3)} style={styles.starButton}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+        onPress={(event) => {
+          event.stopPropagation();
+          onToggleFavorite(country.cca3);
+        }}
+        style={styles.starButton}
+      >
         <Text style={[styles.star, isFavorite && styles.starActive]}>
           {isFavorite ? '\u2605' : '\u2606'}
         </Text>
